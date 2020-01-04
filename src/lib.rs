@@ -21,7 +21,7 @@
 //! use std::net::TcpStream;
 //!
 //! # fn main() {
-//! let mut conn = Client::connect("127.0.0.1:6600").unwrap();
+//! let mut conn = Client::connect(TcpStream::connect("127.0.0.1:10429").unwrap()).unwrap();
 //! conn.set_performance(Options::Performance::Full)
 //! //let devices = conn.get_connected_devices()
 //! //for device in devices {
