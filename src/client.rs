@@ -6,6 +6,8 @@ use std::io::prelude::{Read, Write};
 use std::io::{BufReader, BufWriter};
 use std::net::TcpStream;
 
+use crate::response::Response;
+
 #[derive(Debug)]
 pub struct Client {
     stream: TcpStream,
@@ -20,6 +22,8 @@ impl Client {
         self.run_command("get_performance\0")?;
         //TODO lol clean this up
         let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
+        Response::verify(&r);
+        Response::parse_performance(&r);
         Ok(r)
     }
 
@@ -27,6 +31,8 @@ impl Client {
         self.run_command("get_connected_devices\0")?;
         //TODO lol clean this up
         let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
+        Response::verify(&r);
+        Response::parse_connected_devices(&r);
         Ok(r)
     }
 }

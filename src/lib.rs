@@ -1,3 +1,5 @@
+#![warn(missing_docs)]
+
 //! Saleae client for Rust
 //!
 //! This crate provides a Rust API for [Saleae](https://www.saleae.com).
@@ -32,4 +34,7 @@ extern crate anyhow;
 extern crate bufstream;
 
 pub mod client;
+pub mod response;
+pub mod connected_devices;
+
 pub use client::Client;
