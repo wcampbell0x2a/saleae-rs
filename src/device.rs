@@ -5,7 +5,7 @@
 //! 1, Logic Pro 16, LOGIC_PRO_16_DEVICE, 0xdf03c43d1f3aa2f3, ACTIVE
 //! ```
 //! ## C# struct
-//! ```text, no_run
+//! ```text
 //! struct ConnectedDevices
 //! {
 //!   String type;

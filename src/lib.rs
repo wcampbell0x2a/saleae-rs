@@ -17,18 +17,19 @@
 //!
 //! # Example with no error handling
 //! ```rust, no_run
-//! //extern crate saleae;
+//! extern crate saleae;
 //!
-//! //use saleae::Client;
-//! //use std::net::TcpStream;
+//! use saleae::Client;
+//! use std::net::TcpStream;
 //!
-//! //# fn main() {
-//! //let mut conn = Client::connect(TcpStream::connect("127.0.0.1:10429").unwrap()).unwrap();
-//! //conn.set_performance(Options::Performance::Full)
-//! //let devices = conn.get_connected_devices()
-//! //for device in devices {
-//! //    println!(
-//! //}
+//! # fn main() {
+//! let mut conn = Client::new(TcpStream::connect("127.0.0.1:10429").unwrap()).unwrap();
+//! let response0 = conn.get_performance();
+//! println!("get_performance: {}", response0.unwrap());
+//!
+//! let response1 = conn.get_connected_devices();
+//! println!("get_command_devices: {:?}", response1.unwrap());
+//! # }
 
 extern crate anyhow;
 extern crate bufstream;
