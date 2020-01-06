@@ -31,7 +31,9 @@ mod tests {
     }
 
     #[test]
-    fn test_parse_performance() {}
+    fn test_parse_performance() {
+        assert_eq!(Response::parse_performance("100"), 100);
+    }
 
     #[test]
     fn test_connected_devices() {

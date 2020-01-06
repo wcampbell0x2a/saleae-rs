@@ -42,3 +42,4 @@ pub mod device;
 pub mod response;
 
 pub use client::Client;
+pub use device::ConnectedDevice;

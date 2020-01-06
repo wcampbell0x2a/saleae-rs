@@ -28,18 +28,16 @@ impl Client {
 /// Interface for setting and getting Logic information
 impl Client {
     /// Return current performance level of Logic
-    pub fn get_performance(&mut self) -> Result<(String)> {
-        //self.run_command("get_performance\0")?;
-        ////TODO lol clean this up
-        //let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
-        //Response::verify_ack(&r);
-        //Response::parse_performance(&Response::remove_ack(&r));
-        //Ok(r)
-        Ok("".to_string())
+    pub fn get_performance(&mut self) -> Result<u8> {
+        self.run_command("get_performance\0")?;
+        //TODO lol clean this up
+        let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
+        Response::verify_ack(&r);
+        Ok(Response::parse_performance(&Response::remove_ack(&r)))
     }
 
     /// Return current connected devices of Logic
-    pub fn get_connected_devices(&mut self) -> Result<(Vec<ConnectedDevice>)> {
+    pub fn get_connected_devices(&mut self) -> Result<Vec<ConnectedDevice>> {
         self.run_command("get_connected_devices\0")?;
         //TODO lol clean this up
         let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
