@@ -18,7 +18,6 @@ pub struct Client {
 
 /// Constructor
 impl Client {
-
     /// constructor
     pub fn new(stream: TcpStream) -> Result<Client> {
         Ok(Client { stream: stream })
