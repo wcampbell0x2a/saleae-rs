@@ -10,15 +10,24 @@ use crate::device::ConnectedDevice;
 use crate::response::Response;
 
 #[derive(Debug)]
+/// Main interface for communication to Saleae Logic
 pub struct Client {
+    /// tcp stream with connection to saleae
     stream: TcpStream,
 }
 
+/// Constructor
 impl Client {
+
+    /// constructor
     pub fn new(stream: TcpStream) -> Result<Client> {
         Ok(Client { stream: stream })
     }
+}
 
+/// Interface for setting and getting Logic information
+impl Client {
+    /// Return current performance level of Logic
     pub fn get_performance(&mut self) -> Result<(String)> {
         //self.run_command("get_performance\0")?;
         ////TODO lol clean this up
@@ -29,6 +38,7 @@ impl Client {
         Ok("".to_string())
     }
 
+    /// Return current connected devices of Logic
     pub fn get_connected_devices(&mut self) -> Result<(Vec<ConnectedDevice>)> {
         self.run_command("get_connected_devices\0")?;
         //TODO lol clean this up
@@ -38,6 +48,7 @@ impl Client {
     }
 }
 
+/// private functions for socket functions
 impl Client {
     fn read_line(&mut self) -> Result<Vec<u8>> {
         let mut reader = BufReader::new(&self.stream);

@@ -1,4 +1,4 @@
-//! This module defines devices that are connected to saleae logic program
+//! This module defines devices that are connected to the saleae logic program.
 //!
 //! ## Example of response from Logic
 //! ```text
@@ -29,6 +29,7 @@ custom_derive! {
     }
 }
 
+/// Connected Device to saleae, the main usability comes from the fromStr trait.
 #[derive(Debug, PartialEq)]
 pub struct ConnectedDevice {
     /// type of device
