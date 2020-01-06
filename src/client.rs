@@ -6,6 +6,7 @@ use std::io::prelude::{Read, Write};
 use std::io::{BufReader, BufWriter};
 use std::net::TcpStream;
 
+use crate::device::ConnectedDevice;
 use crate::response::Response;
 
 #[derive(Debug)]
@@ -19,21 +20,21 @@ impl Client {
     }
 
     pub fn get_performance(&mut self) -> Result<(String)> {
-        self.run_command("get_performance\0")?;
-        //TODO lol clean this up
-        let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
-        Response::verify(&r);
-        Response::parse_performance(&r);
-        Ok(r)
+        //self.run_command("get_performance\0")?;
+        ////TODO lol clean this up
+        //let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
+        //Response::verify_ack(&r);
+        //Response::parse_performance(&Response::remove_ack(&r));
+        //Ok(r)
+        Ok("".to_string())
     }
 
-    pub fn get_connected_devices(&mut self) -> Result<(String)> {
+    pub fn get_connected_devices(&mut self) -> Result<(Vec<ConnectedDevice>)> {
         self.run_command("get_connected_devices\0")?;
         //TODO lol clean this up
         let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
-        Response::verify(&r);
-        Response::parse_connected_devices(&r);
-        Ok(r)
+        Response::verify_ack(&r);
+        Ok(Response::parse_connected_devices(&Response::remove_ack(&r)))
     }
 }
 

@@ -17,24 +17,28 @@
 //!
 //! # Example with no error handling
 //! ```rust, no_run
-//! extern crate mpd;
+//! //extern crate saleae;
 //!
-//! use mpd::Client;
-//! use std::net::TcpStream;
+//! //use saleae::Client;
+//! //use std::net::TcpStream;
 //!
-//! # fn main() {
-//! let mut conn = Client::connect(TcpStream::connect("127.0.0.1:10429").unwrap()).unwrap();
-//! conn.set_performance(Options::Performance::Full)
+//! //# fn main() {
+//! //let mut conn = Client::connect(TcpStream::connect("127.0.0.1:10429").unwrap()).unwrap();
+//! //conn.set_performance(Options::Performance::Full)
 //! //let devices = conn.get_connected_devices()
 //! //for device in devices {
 //! //    println!(
-//! #}
+//! //}
 
 extern crate anyhow;
 extern crate bufstream;
+#[macro_use]
+extern crate custom_derive;
+#[macro_use]
+extern crate enum_derive;
 
 pub mod client;
+pub mod device;
 pub mod response;
-pub mod connected_devices;
 
 pub use client::Client;
