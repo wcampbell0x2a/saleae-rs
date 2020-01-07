@@ -1,6 +1,7 @@
 //! This module help discern and parse the responses from saleae
 
 use crate::device::ConnectedDevice;
+use crate::samplerate::SampleRate;
 use std::str::FromStr;
 
 /// struct to handle responses
@@ -32,9 +33,35 @@ impl Response {
     /// 40
     /// 20
     /// ```
-    //TODO finish this
     pub fn parse_performance(response: &str) -> u8 {
         response.parse::<u8>().unwrap()
+    }
+
+    pub fn parse_num_samples(response: &str) -> u32 {
+        response.parse::<u32>().unwrap()
+    }
+
+    ///
+    pub fn parse_get_sample_rate(response: &str) -> SampleRate {
+        let mut iter = response.lines();
+        SampleRate {
+            AnalogSampleRate: iter.next().unwrap().parse::<u32>().unwrap(),
+            DigitalSampleRate: iter.next().unwrap().parse::<u32>().unwrap(),
+        }
+    }
+
+    /// Parse get all sample rates
+    ///
+    /// # Sample input
+    /// ```text
+    /// 5000000, 1250000
+    /// 10000000, 625000
+    /// ```
+    pub fn parse_get_all_sample_rates(response: &str) -> Vec<SampleRate> {
+        response
+            .lines()
+            .map(|a| SampleRate::from_str(&a).unwrap())
+            .collect()
     }
 
     /// Parse the connected_devices reponse into ConnectedDevice
@@ -48,5 +75,18 @@ impl Response {
             .lines()
             .map(|a| ConnectedDevice::from_str(&a).unwrap())
             .collect()
+    }
+
+    /// Parse if processing is complete
+    ///
+    /// # Sample Input
+    /// ```text
+    /// FALSE
+    /// ```
+    /// ```text
+    /// TRUE
+    /// ```
+    pub fn parse_processing_complete(response: &str) -> bool {
+        response == "TRUE"
     }
 }

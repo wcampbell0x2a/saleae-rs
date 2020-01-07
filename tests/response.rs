@@ -2,6 +2,7 @@
 mod tests {
     use saleae::device::{ConnectedDevice, DeviceID};
     use saleae::response::Response;
+    use saleae::samplerate::SampleRate;
 
     #[test]
     fn test_remove_ack() {
@@ -33,6 +34,29 @@ mod tests {
     #[test]
     fn test_parse_performance() {
         assert_eq!(Response::parse_performance("100"), 100);
+        assert_eq!(Response::parse_performance("80"), 80);
+        assert_eq!(Response::parse_performance("60"), 60);
+        assert_eq!(Response::parse_performance("40"), 40);
+        assert_eq!(Response::parse_performance("20"), 20);
+    }
+
+    #[test]
+    fn test_get_all_sample_rates() {
+        let one = SampleRate {
+            AnalogSampleRate: 10000000,
+            DigitalSampleRate: 625000,
+        };
+        let two = SampleRate {
+            AnalogSampleRate: 5000000,
+            DigitalSampleRate: 1250000,
+        };
+        let expected = vec![one, two];
+        let result = Response::parse_get_all_sample_rates(
+            "10000000, 625000
+                                                           5000000, 1250000",
+        );
+        assert_eq!(result[0], expected[0]);
+        assert_eq!(result[1], expected[1]);
     }
 
     #[test]
@@ -58,5 +82,17 @@ mod tests {
         );
         assert_eq!(result[0], expected[0]);
         assert_eq!(result[1], expected[1]);
+    }
+
+    #[test]
+    fn test_is_processing_complete() {
+        assert_eq!(true, Response::parse_processing_complete("TRUE"));
+        assert_eq!(false, Response::parse_processing_complete("FALSE"));
+    }
+
+    #[test]
+    fn test_parse_num_samples() {
+        assert_eq!(10000, Response::parse_num_samples("10000"));
+        assert_eq!(20, Response::parse_num_samples("20"));
     }
 }

@@ -20,11 +20,17 @@ use anyhow::Result;
 use std::str::FromStr;
 
 custom_derive! {
+    /// Device id for saleae devices
+    #[allow(non_camel_case_types)]
     #[derive(Debug, EnumFromStr, PartialEq)]
     pub enum DeviceID {
+        /// Regular 4 Wire device
         LOGIC_4_DEVICE,
+        /// Regular 8 Wire device
         LOGIC_8_DEVICE,
+        /// Pro 8 Wire device
         LOGIC_PRO_8_DEVICE,
+        /// Pro 16 Wire device
         LOGIC_PRO_16_DEVICE,
     }
 }
@@ -56,19 +62,14 @@ impl FromStr for ConnectedDevice {
          * last element is ACTIVE, if that element doesn't don't cause a panic by
          * checking that element
          */
-        let mut is_active = false;
-        if v.len() == 5 {
-            if v[4] == "ACTIVE" {
-                is_active = true;
-            }
-        }
+        let is_active = v.len() == 5 && v[4] == "ACTIVE";
 
         Ok(ConnectedDevice {
             d_type: v[0].to_string(),
             name: v[1].to_string(),
-            device_id: device_id,
+            device_id,
             index: v[3].to_string(),
-            is_active: is_active,
+            is_active,
         })
     }
 }

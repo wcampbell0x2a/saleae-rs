@@ -1,5 +1,3 @@
-#![warn(missing_docs)]
-
 //! Saleae client for Rust
 //!
 //! This crate provides a Rust API for [Saleae](https://www.saleae.com).
@@ -22,14 +20,12 @@
 //! use saleae::Client;
 //! use std::net::TcpStream;
 //!
-//! # fn main() {
 //! let mut conn = Client::new(TcpStream::connect("127.0.0.1:10429").unwrap()).unwrap();
 //! let response0 = conn.get_performance();
 //! println!("get_performance: {}", response0.unwrap());
 //!
 //! let response1 = conn.get_connected_devices();
 //! println!("get_command_devices: {:?}", response1.unwrap());
-//! # }
 
 extern crate anyhow;
 extern crate bufstream;
@@ -40,7 +36,12 @@ extern crate enum_derive;
 
 pub mod client;
 pub mod device;
+pub mod performance;
 pub mod response;
+pub mod samplerate;
+pub mod request;
 
 pub use client::Client;
 pub use device::ConnectedDevice;
+pub use performance::PerformanceOption;
+pub use samplerate::SampleRate;
