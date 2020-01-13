@@ -5,7 +5,9 @@ mod tests {
     /// Regular function tests
     #[test]
     fn test_prepare_set_active_channels() {
-        let expected1: String = "set_active_channels, digital_channels, 1, 7, 8, 9, analog_channels, 0, 9, 8\0".to_string();
+        let expected1: String =
+            "set_active_channels, digital_channels, 1, 7, 8, 9, analog_channels, 0, 9, 8\0"
+                .to_string();
         assert_eq!(
             expected1,
             Request::prepare_set_active_channels(&[1, 7, 8, 9], &[0, 9, 8]).unwrap(),
@@ -27,7 +29,9 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "Logic requires at least one active channel, no active channels found")]
+    #[should_panic(
+        expected = "Logic requires at least one active channel, no active channels found"
+    )]
     fn test_prepare_set_active_channels_panic() {
         // Empty both channels (should panic / error)
         let expected4: String = "set_active_channels\0".to_string();
@@ -35,7 +39,6 @@ mod tests {
             expected4,
             Request::prepare_set_active_channels(&[], &[]).unwrap(),
         );
-
     }
 
     /// Help function tests

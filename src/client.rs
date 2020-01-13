@@ -8,8 +8,8 @@ use std::net::TcpStream;
 
 use crate::device::ConnectedDevice;
 use crate::performance::PerformanceOption;
-use crate::response::Response;
 use crate::request::Request;
+use crate::response::Response;
 use crate::samplerate::SampleRate;
 
 #[derive(Debug)]
@@ -40,7 +40,9 @@ impl Client {
     pub fn get_num_samples(&mut self) -> Result<u32> {
         self.run_command("get_num_samples\0")?;
         let response = self.general_recieve_message()?;
-        Ok(Response::parse_num_samples(&Response::remove_ack(&response)))
+        Ok(Response::parse_num_samples(&Response::remove_ack(
+            &response,
+        )))
     }
 
     /// Set the capture duration to a length of time
@@ -66,7 +68,9 @@ impl Client {
     pub fn get_sample_rate(&mut self) -> Result<SampleRate> {
         self.run_command("get_sample_rate\0")?;
         let response = self.general_recieve_message()?;
-        Ok(Response::parse_get_sample_rate(&Response::remove_ack(&response)))
+        Ok(Response::parse_get_sample_rate(&Response::remove_ack(
+            &response,
+        )))
     }
 
     pub fn get_all_sample_rates(&mut self) -> Result<Vec<SampleRate>> {
@@ -81,7 +85,9 @@ impl Client {
     pub fn get_performance(&mut self) -> Result<u8> {
         self.run_command("get_performance\0")?;
         let response = self.general_recieve_message()?;
-        Ok(Response::parse_performance(&Response::remove_ack(&response)))
+        Ok(Response::parse_performance(&Response::remove_ack(
+            &response,
+        )))
     }
 
     /// Set the performance value, controlling the USB traffic and quality
@@ -98,7 +104,9 @@ impl Client {
         self.run_command("get_connected_devices\0")?;
         //TODO lol clean this up
         let response = self.general_recieve_message()?;
-        Ok(Response::parse_connected_devices(&Response::remove_ack(&response)))
+        Ok(Response::parse_connected_devices(&Response::remove_ack(
+            &response,
+        )))
     }
 
     /// Find index of device from the list of devices connected to Saleae
@@ -106,7 +114,11 @@ impl Client {
     /// Note: Indices start at 1, not 0
     /// TODO: test with multiple saleae
     pub fn select_active_device(&mut self, device: ConnectedDevice) -> Result<bool> {
-        let b = self.get_connected_devices().unwrap().into_iter().position(|a| a == device);
+        let b = self
+            .get_connected_devices()
+            .unwrap()
+            .into_iter()
+            .position(|a| a == device);
         self.run_command(&format!("select_active_device, {}", b.unwrap() + 1))?;
         //TODO check ack?
         Ok(true)
@@ -117,10 +129,12 @@ impl Client {
         self.run_command("get_connected_devices\0")?;
         //TODO lol clean this up
         let response = self.general_recieve_message()?;
-        Ok(Response::parse_connected_devices(&Response::remove_ack(&response))
-            .into_iter()
-            .find(|a| a.is_active)
-            .unwrap())
+        Ok(
+            Response::parse_connected_devices(&Response::remove_ack(&response))
+                .into_iter()
+                .find(|a| a.is_active)
+                .unwrap(),
+        )
     }
 
     /// Parse the get active channels tommand into tuples of digital and analog
@@ -130,15 +144,22 @@ impl Client {
         //self.run_command("get_active_channels\0");
         //let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
         //Ok(Response::parse_connected_devices(&Response::remove_ack(&r)))
-        Ok((&[1,2,3], &[4,5,6]))
+        Ok((&[1, 2, 3], &[4, 5, 6]))
     }
 
     /// Set the active channels for the Logic program
     ///
     /// # Example
     /// TODO add get_active_channels
-    pub fn set_active_channels(&mut self, digital_channels: &[u8], analog_channels: &[u8]) -> Result<bool> {
-        self.run_command(&Request::prepare_set_active_channels(&digital_channels, &analog_channels)?)?;
+    pub fn set_active_channels(
+        &mut self,
+        digital_channels: &[u8],
+        analog_channels: &[u8],
+    ) -> Result<bool> {
+        self.run_command(&Request::prepare_set_active_channels(
+            &digital_channels,
+            &analog_channels,
+        )?)?;
         Ok(self.general_recieve_ack()?)
     }
 
@@ -201,8 +222,7 @@ impl Client {
 
 /// private functions for socket functions
 impl Client {
-
-    fn general_recieve_ack(&mut self) ->  Result<bool> {
+    fn general_recieve_ack(&mut self) -> Result<bool> {
         let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
         Ok(Response::verify_ack(&r))
     }
