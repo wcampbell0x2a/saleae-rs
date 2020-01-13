@@ -102,7 +102,6 @@ impl Client {
     /// Return current connected devices of Logic
     pub fn get_connected_devices(&mut self) -> Result<Vec<ConnectedDevice>> {
         self.run_command("get_connected_devices\0")?;
-        //TODO lol clean this up
         let response = self.general_recieve_message()?;
         Ok(Response::parse_connected_devices(&Response::remove_ack(
             &response,
@@ -137,14 +136,14 @@ impl Client {
         )
     }
 
-    /// Parse the get active channels tommand into tuples of digital and analog
+    /// Parse the get active channels command into tuples of digital and analog
     /// channels that are current
-    pub fn get_active_channels(&mut self) -> Result<(&[u8], &[u8])> {
-        //TODO make work
-        //self.run_command("get_active_channels\0");
-        //let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
-        //Ok(Response::parse_connected_devices(&Response::remove_ack(&r)))
-        Ok((&[1, 2, 3], &[4, 5, 6]))
+    pub fn get_active_channels(&mut self) -> Result<(Vec<Vec<u8>>)> {
+        self.run_command("get_active_channels\0")?;
+        let response = self.general_recieve_message()?;
+        Ok(Response::parse_get_active_channels(&Response::remove_ack(
+            &response,
+        ))?)
     }
 
     /// Set the active channels for the Logic program
