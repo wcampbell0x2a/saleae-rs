@@ -27,6 +27,7 @@
 //! let response1 = conn.get_connected_devices();
 //! println!("get_command_devices: {:?}", response1.unwrap());
 
+#[macro_use]
 extern crate anyhow;
 extern crate bufstream;
 #[macro_use]

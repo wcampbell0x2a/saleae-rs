@@ -133,6 +133,10 @@ impl Client {
         Ok((&[1,2,3], &[4,5,6]))
     }
 
+    /// Set the active channels for the Logic program
+    ///
+    /// # Example
+    /// TODO add get_active_channels
     pub fn set_active_channels(&mut self, digital_channels: &[u8], analog_channels: &[u8]) -> Result<bool> {
         self.run_command(&Request::prepare_set_active_channels(&digital_channels, &analog_channels)?)?;
         Ok(self.general_recieve_ack()?)
