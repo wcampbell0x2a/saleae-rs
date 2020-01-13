@@ -38,9 +38,9 @@ extern crate enum_derive;
 pub mod client;
 pub mod device;
 pub mod performance;
+pub mod request;
 pub mod response;
 pub mod samplerate;
-pub mod request;
 
 pub use client::Client;
 pub use device::ConnectedDevice;
