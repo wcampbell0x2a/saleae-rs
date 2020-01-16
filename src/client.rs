@@ -199,7 +199,11 @@ impl Client {
         Ok(self.general_recieve_ack()?)
     }
 
-    //TODO capture_to_file
+    pub fn capture_to_file(&mut self, filepath: String) -> Result<bool> {
+        println!("{}", &format!("capture_to_file, {}", filepath));
+        self.run_command(&format!("capture_to_file, {}\0", filepath));
+        Ok(self.general_recieve_ack()?)
+    }
     //TODO save_to_file
     //TODO load_from_file
 

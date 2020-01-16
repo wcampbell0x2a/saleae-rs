@@ -1,6 +1,7 @@
 //! Saleae client for Rust
 //!
-//! This crate provides a Rust API for [Saleae](https://www.saleae.com).
+//! This crate provides a heavily tested Rust API for the [Saleae](https://www.saleae.com)
+//! socket interface.
 //! The API is based on the documentation provided:
 //! [SaleaeSocketAPI](https://github.com/saleae/SaleaeSocketApi)
 //!
