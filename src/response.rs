@@ -2,6 +2,7 @@
 
 use crate::device::ConnectedDevice;
 use crate::samplerate::SampleRate;
+use anyhow::Result;
 use std::str::FromStr;
 
 /// struct to handle responses
@@ -75,6 +76,27 @@ impl Response {
             .lines()
             .map(|a| ConnectedDevice::from_str(&a).unwrap())
             .collect()
+    }
+
+    pub fn parse_get_active_channels(response: &str) -> Result<(Vec<Vec<u8>>)> {
+        println!("{}", response);
+        let v: Vec<&str> = response.split(',').map(|a| a.trim_start()).collect();
+
+        // Find position of starter word
+        let digital_pos = v.iter().position(|a| *a == "digital_channels").unwrap();
+        let analog_pos = v.iter().position(|a| *a == "analog_channels").unwrap();
+
+        // Parse in between words to find values
+        let digital_res: Vec<u8> = v[digital_pos + 1..analog_pos]
+            .iter()
+            .map(|a| a.parse().unwrap())
+            .collect();
+
+        let analog_res: Vec<u8> = v[analog_pos + 1..v.len()]
+            .iter()
+            .map(|a| a.parse().unwrap())
+            .collect();
+        Ok(vec![digital_res, analog_res])
     }
 
     /// Parse if processing is complete

@@ -3,6 +3,9 @@ name = "saleae"
 version = "0.0.1"
 authors = ["wcampbell"]
 edition = "2018"
+description = "a rust library for interacting with saleae devices"
+keywords = ["logic", "saleae", "api", "re", "reverse", "engineering"]
+maintenance = { status = "actively-developed" }
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

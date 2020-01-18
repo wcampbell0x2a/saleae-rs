@@ -85,6 +85,27 @@ mod tests {
     }
 
     #[test]
+    fn test_parse_into_active_channels() {
+        // Test regular input
+        let input: String = "digital_channels, 0, 4, 5, 7, analog_channels, 0, 1, 2, 5".to_string();
+        let result = Response::parse_get_active_channels(&input).unwrap();
+        assert_eq!([0, 4, 5, 7], result[0].as_slice());
+        assert_eq!([0, 1, 2, 5], result[1].as_slice());
+
+        // Test with no analog channels
+        let input: String = "digital_channels, 0, 4, 5, 7, analog_channels".to_string();
+        let result = Response::parse_get_active_channels(&input).unwrap();
+        assert_eq!([0, 4, 5, 7], result[0].as_slice());
+        assert!(result[1].as_slice().is_empty());
+
+        // Test with no digital channels
+        let input: String = "digital_channels, analog_channels, 1, 2, 5".to_string();
+        let result = Response::parse_get_active_channels(&input).unwrap();
+        assert!(result[0].as_slice().is_empty());
+        assert_eq!([1, 2, 5], result[1].as_slice());
+    }
+
+    #[test]
     fn test_is_processing_complete() {
         assert_eq!(true, Response::parse_processing_complete("TRUE"));
         assert_eq!(false, Response::parse_processing_complete("FALSE"));

@@ -73,4 +73,7 @@ fn main() {
 
     let response16 = conn.set_active_channels(&[0, 4, 5, 7], &[0, 1, 2, 5, 8]);
     println!("set_active_channels: {:?}", response16.unwrap());
+
+    let response17 = conn.get_active_channels().unwrap();
+    println!("digital: {:?}, analog: {:?}", response17[0], response17[1]);
 }
