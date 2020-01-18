@@ -1,7 +1,8 @@
 //! Saleae client for Rust
 //!
-//! This crate provides a heavily tested Rust API for the [Saleae](https://www.saleae.com)
-//! socket interface.
+//! This crate provides a tested Rust API for the [Saleae](https://www.saleae.com)
+//! socket interface. This has been tested with Logic running in Linux, and for now
+//! doesn't support Logic running on Windows.
 //! The API is based on the documentation provided:
 //! [SaleaeSocketAPI](https://github.com/saleae/SaleaeSocketApi)
 //!

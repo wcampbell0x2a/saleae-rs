@@ -35,6 +35,62 @@ impl Request {
 
         Ok(format!("set_active_channels{}{}\0", d_str, a_str))
     }
+
+    pub fn prepare_export_data2(
+        filepath: String,
+        digital_channels: &[u8],
+        analog_channels: &[u8],
+        active_digital: &[u8],
+        active_analog: &[u8],
+    ) -> Result<String> {
+        let input: String = format!("export_data2, {}, ", filepath);
+
+        // channel selection
+        let mut channel_type: String = "".to_string();
+        let mut a_or_d: String = "".to_string();
+        let mut channels: String = "".to_string();
+
+        if digital_channels.is_empty() && analog_channels.is_empty() {
+            channel_type = "ALL_CHANNELS, ".to_string();
+        } else {
+            if !active_digital.is_empty() && !active_analog.is_empty() {
+                channel_type = "SPECIFIC_CHANNELS, ".to_string();
+                if !digital_channels.is_empty() && !analog_channels.is_empty() {
+                    a_or_d = "ANALOG_AND_DIGITAL, ".to_string();
+                } else if !digital_channels.is_empty() {
+                    a_or_d = "DIGITAL_ONLY, ".to_string();
+                } else if !analog_channels.is_empty() {
+                    a_or_d = "ANALOG_ONLY, ".to_string();
+                }
+            }
+
+            // Add channels
+            if !digital_channels.is_empty() {
+                digital_channels
+                    .iter()
+                    .for_each(|&a| channels.push_str(&format!("{:?} DIGITAL", a)));
+            }
+            if !analog_channels.is_empty() {
+                analog_channels
+                    .iter()
+                    .for_each(|&a| channels.push_str(&format!("{:?} ANALOG", a)));
+            }
+        }
+
+        // Time
+        // TODO support time entry
+        let time: String = "ALL_TIME, ".to_string();
+
+        // TODO support different export
+        let mut csv = String::from("");
+        if !active_analog.is_empty() {
+            csv = "CSV, HEADERS, COMMA, HEX, VOLTAGE".to_string();
+        }
+        else {
+            csv = "CSV, HEADERS, COMMA, TIME_STAMP, COMBINED, HEX, ROW_PER_CHANGE".to_string();
+        }
+        Ok(format!("{}{}{}{}{}", input, channel_type, a_or_d, time, csv))
+    }
 }
 
 /// Helper functions

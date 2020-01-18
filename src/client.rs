@@ -213,7 +213,26 @@ impl Client {
         Ok(self.general_recieve_ack()?)
     }
 
-    //TODO export_data2
+    pub fn export_data2(
+        &mut self,
+        filepath: String,
+        digital_channels: Option<&[u8]>,
+        analog_channels: Option<&[u8]>,
+    ) -> Result<bool> {
+        // get active channels
+        let active_channels = self.get_active_channels().unwrap();
+
+        let request = Request::prepare_export_data2(
+            filepath,
+            digital_channels.unwrap_or(&vec![]),
+            analog_channels.unwrap_or(&vec![]),
+            &active_channels[0],
+            &active_channels[1],
+        )?;
+        self.run_command(&format!("{}\0", request))?;
+        Ok(self.general_recieve_ack()?)
+    }
+
     //TODO get_analyzers
     //TODO export_analyzer
     //TODO is_analyzer_complete

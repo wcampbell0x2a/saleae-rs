@@ -41,7 +41,29 @@ mod tests {
         );
     }
 
-    /// Help function tests
+    #[test]
+    fn test_prepare_export_data2() {
+        // all with analog
+        let expected: String =  "export_data2, /tmp/test.csv, ALL_CHANNELS, ALL_TIME, CSV, HEADERS, COMMA, HEX, VOLTAGE".to_string();
+        assert_eq!(Request::prepare_export_data2(
+            "/tmp/test.csv".to_string(),
+            &vec![],
+            &vec![],
+            /* active_digital */ &[3, 4, 5],
+            /* active_analog */ &[5, 6, 7],
+        ).unwrap(), expected);
+
+        // all without analog
+        let expected1: String = "export_data2, /tmp/test.csv, ALL_CHANNELS, ALL_TIME, CSV, HEADERS, COMMA, TIME_STAMP, COMBINED, HEX, ROW_PER_CHANGE".to_string();
+        assert_eq!(Request::prepare_export_data2(
+            "/tmp/test.csv".to_string(),
+            &vec![],
+            &vec![],
+            /*active_digital */ &[3, 4, 5],
+            &vec![],
+        ).unwrap(), expected1);
+    }
+
     #[test]
     fn test_create_channel_str() {
         let input = [0, 4, 5, 7];

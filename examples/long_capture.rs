@@ -23,9 +23,9 @@ fn main() -> Result<()> {
         let filepath = format!("/home/wcampbell/logic/{}.logicdata", n).to_string();
         conn.capture_to_file(filepath)?;
 
-        //        // csv raw output
-        //        let csv_path = format!("~/logic/{}.csv", n).to_string();
-        //        conn.export_data2(csv_path)?;
+        // csv raw output
+        let csv_path = format!("~/logic/{}.csv", n).to_string();
+        conn.export_data2(csv_path, None, None)?;
         //
         //        // analyzer export
         //        let analyzers = conn.get_analyzers()?;
