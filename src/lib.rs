@@ -1,7 +1,7 @@
 //! Saleae client for Rust
 //!
 //! This crate provides a Rust API for [Saleae](https://www.saleae.com).
-//! The API is based on the documentation provided:
+//! The API is based on the documentation provided here:
 //! [SaleaeSocketAPI](https://github.com/saleae/SaleaeSocketApi)
 //!
 //! The main entry point for this API is the ['Client'](client/struct.Client.html) struct.
