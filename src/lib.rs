@@ -17,10 +17,10 @@
 //! ```rust, no_run
 //! extern crate saleae;
 //!
-//! use saleae::Client;
+//! use saleae::{Client, Connection};
 //! use std::net::TcpStream;
 //!
-//! let mut conn = Client::new(TcpStream::connect("127.0.0.1:10429").unwrap()).unwrap();
+//! let mut conn = Client::new(Connection::new("127.0.0.1:10429")).unwrap();
 //! let response0 = conn.get_performance();
 //! println!("get_performance: {}", response0.unwrap());
 //!
@@ -34,6 +34,7 @@ extern crate bufstream;
 extern crate custom_derive;
 #[macro_use]
 extern crate enum_derive;
+extern crate faux;
 
 pub mod client;
 pub mod device;
@@ -42,7 +43,7 @@ pub mod request;
 pub mod response;
 pub mod samplerate;
 
-pub use client::Client;
+pub use client::{Client, Connection};
 pub use device::ConnectedDevice;
 pub use performance::PerformanceOption;
 pub use samplerate::SampleRate;
