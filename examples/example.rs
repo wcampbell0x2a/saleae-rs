@@ -30,7 +30,7 @@ fn main() {
     let response6 = conn.start_capture_block_until_finished();
     println!("longer waiting is complete: {:?}", response6.unwrap());
 
-    let response = conn.set_capture_seconds(10);
+    let response = conn.set_capture_seconds(10.1);
     println!("set_capture_seconds: {:?}", response.unwrap());
 
     let response4 = conn.start_capture();

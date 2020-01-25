@@ -94,11 +94,9 @@ impl Client {
     }
 
     /// Set the capture duration to a length of time
-    pub fn set_capture_seconds(&mut self, seconds: u8) -> Result<bool> {
-        //TODO check input
-        //TODO support floating point
+    pub fn set_capture_seconds(&mut self, seconds: f32) -> Result<bool> {
         self.connection
-            .run_command(&format!("set_capture_seconds, {}.0\0", seconds))?;
+            .run_command(&format!("set_capture_seconds, {}\0", seconds))?;
         Ok(self.connection.general_recieve_ack()?)
     }
 
