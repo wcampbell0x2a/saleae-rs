@@ -88,11 +88,12 @@ impl Client {
     pub fn get_num_samples(&mut self) -> Result<u32> {
         self.connection.run_command("get_num_samples\0")?;
         let response = self.connection.general_recieve_message()?;
-        match Response::verify_ack(&response) {
-            true => Ok(Response::parse_num_samples(&Response::remove_ack(
+        if Response::verify_ack(&response) {
+            Ok(Response::parse_num_samples(&Response::remove_ack(
                 &response,
-            ))),
-            false => return Err(anyhow!("No ACK found")),
+            )))
+        } else {
+            Err(anyhow!("No ACK found"))
         }
     }
 
