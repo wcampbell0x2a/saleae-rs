@@ -89,12 +89,10 @@ impl Client {
         self.connection.run_command("get_num_samples\0")?;
         let response = self.connection.general_recieve_message()?;
         match Response::verify_ack(&response) {
-            true => {
-                Ok(Response::parse_num_samples(&Response::remove_ack(
-                    &response,
-                )))
-            }
-            false => return Err(anyhow!("No ACK found"))
+            true => Ok(Response::parse_num_samples(&Response::remove_ack(
+                &response,
+            ))),
+            false => return Err(anyhow!("No ACK found")),
         }
     }
 

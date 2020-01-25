@@ -50,9 +50,7 @@ mod tests {
             DigitalSampleRate: 6250000,
             AnalogSampleRate: 1562500,
         };
-        let result = Response::parse_get_all_sample_rates(
-            "25000000, 3125000\n6250000, 1562500\n"
-        );
+        let result = Response::parse_get_all_sample_rates("25000000, 3125000\n6250000, 1562500\n");
         assert_eq!(result[0], one);
         assert_eq!(result[1], two);
     }

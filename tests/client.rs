@@ -55,7 +55,12 @@ mod tests {
         unsafe { faux::when!(conn.general_recieve_ack).then(|_| Ok(true)) }
 
         let mut conn = Client::new(conn).unwrap();
-        let response = conn.set_sample_rate(&SampleRate {AnalogSampleRate: 6250000, DigitalSampleRate: 1562500}).unwrap();
+        let response = conn
+            .set_sample_rate(&SampleRate {
+                AnalogSampleRate: 6250000,
+                DigitalSampleRate: 1562500,
+            })
+            .unwrap();
         assert_eq!(true, response);
     }
 
@@ -63,7 +68,9 @@ mod tests {
     fn get_sample_rate() {
         let mut conn = Connection::faux();
         unsafe { faux::when!(conn.run_command).then(|_| Ok(())) }
-        unsafe { faux::when!(conn.general_recieve_message).then(|_| Ok("1000000\n0\n".to_string())) }
+        unsafe {
+            faux::when!(conn.general_recieve_message).then(|_| Ok("1000000\n0\n".to_string()))
+        }
 
         let mut conn = Client::new(conn).unwrap();
         let response = conn.get_sample_rate().unwrap();
