@@ -26,7 +26,7 @@ impl Connection {
         }
     }
 
-    fn general_recieve_ack(&mut self) -> Result<bool> {
+    pub fn general_recieve_ack(&mut self) -> Result<bool> {
         let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
         Ok(Response::verify_ack(&r))
     }
@@ -88,9 +88,14 @@ impl Client {
     pub fn get_num_samples(&mut self) -> Result<u32> {
         self.connection.run_command("get_num_samples\0")?;
         let response = self.connection.general_recieve_message()?;
-        Ok(Response::parse_num_samples(&Response::remove_ack(
-            &response,
-        )))
+        match Response::verify_ack(&response) {
+            true => {
+                Ok(Response::parse_num_samples(&Response::remove_ack(
+                    &response,
+                )))
+            }
+            false => return Err(anyhow!("No ACK found"))
+        }
     }
 
     /// Set the capture duration to a length of time
