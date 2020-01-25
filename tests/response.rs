@@ -43,20 +43,18 @@ mod tests {
     #[test]
     fn test_get_all_sample_rates() {
         let one = SampleRate {
-            AnalogSampleRate: 10000000,
-            DigitalSampleRate: 625000,
+            DigitalSampleRate: 25000000,
+            AnalogSampleRate: 3125000,
         };
         let two = SampleRate {
-            AnalogSampleRate: 5000000,
-            DigitalSampleRate: 1250000,
+            DigitalSampleRate: 6250000,
+            AnalogSampleRate: 1562500,
         };
-        let expected = vec![one, two];
         let result = Response::parse_get_all_sample_rates(
-            "10000000, 625000
-                                                           5000000, 1250000",
+            "25000000, 3125000\n6250000, 1562500\n"
         );
-        assert_eq!(result[0], expected[0]);
-        assert_eq!(result[1], expected[1]);
+        assert_eq!(result[0], one);
+        assert_eq!(result[1], two);
     }
 
     #[test]

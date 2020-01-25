@@ -8,15 +8,15 @@ mod tests {
         assert_eq!(
             SampleRate::from_str(&"5000000, 1250000").unwrap(),
             SampleRate {
-                AnalogSampleRate: 5000000,
-                DigitalSampleRate: 1250000
+                DigitalSampleRate: 5000000,
+                AnalogSampleRate: 1250000
             }
         );
         assert_eq!(
             SampleRate::from_str(&"10000000, 625000").unwrap(),
             SampleRate {
-                AnalogSampleRate: 10000000,
-                DigitalSampleRate: 625000
+                DigitalSampleRate: 10000000,
+                AnalogSampleRate: 625000
             }
         );
     }

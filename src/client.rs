@@ -107,7 +107,7 @@ impl Client {
     pub fn set_sample_rate(&mut self, rate: &SampleRate) -> Result<bool> {
         self.connection.run_command(&format!(
             "set_sample_rate, {}, {}\0",
-            rate.AnalogSampleRate, rate.DigitalSampleRate
+            rate.DigitalSampleRate, rate.AnalogSampleRate
         ))?;
         Ok(self.connection.general_recieve_ack()?)
     }

@@ -46,8 +46,8 @@ impl Response {
     pub fn parse_get_sample_rate(response: &str) -> SampleRate {
         let mut iter = response.lines();
         SampleRate {
-            AnalogSampleRate: iter.next().unwrap().parse::<u32>().unwrap(),
             DigitalSampleRate: iter.next().unwrap().parse::<u32>().unwrap(),
+            AnalogSampleRate: iter.next().unwrap().parse::<u32>().unwrap(),
         }
     }
 
