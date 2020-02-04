@@ -46,8 +46,8 @@ impl Response {
     pub fn parse_get_sample_rate(response: &str) -> SampleRate {
         let mut iter = response.lines();
         SampleRate {
-            AnalogSampleRate: iter.next().unwrap().parse::<u32>().unwrap(),
             DigitalSampleRate: iter.next().unwrap().parse::<u32>().unwrap(),
+            AnalogSampleRate: iter.next().unwrap().parse::<u32>().unwrap(),
         }
     }
 
@@ -78,7 +78,7 @@ impl Response {
             .collect()
     }
 
-    pub fn parse_get_active_channels(response: &str) -> Result<(Vec<Vec<u8>>)> {
+    pub fn parse_get_active_channels(response: &str) -> Result<Vec<Vec<u8>>> {
         println!("{}", response);
         let v: Vec<&str> = response.split(',').map(|a| a.trim_start()).collect();
 

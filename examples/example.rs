@@ -1,13 +1,12 @@
 use saleae;
 
-use saleae::Client;
 use saleae::PerformanceOption;
-use std::net::TcpStream;
+use saleae::{Client, Connection};
 use std::thread;
 use std::time::Duration;
 
 fn main() {
-    let mut conn = Client::new(TcpStream::connect("127.0.0.1:10429").unwrap()).unwrap();
+    let mut conn = Client::new(Connection::new("127.0.0.1:10429")).unwrap();
     let response0 = conn.get_performance();
     println!("get_performance: {}", response0.unwrap());
 
@@ -30,7 +29,7 @@ fn main() {
     let response6 = conn.start_capture_block_until_finished();
     println!("longer waiting is complete: {:?}", response6.unwrap());
 
-    let response = conn.set_capture_seconds(10);
+    let response = conn.set_capture_seconds(10.1);
     println!("set_capture_seconds: {:?}", response.unwrap());
 
     let response4 = conn.start_capture();
