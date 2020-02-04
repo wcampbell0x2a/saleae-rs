@@ -2,7 +2,7 @@
 //!
 //! The function here parse and type check the input from the API into strings to send into
 //! the Saleae socket
-use anyhow::{Error, Result};
+use anyhow::Result;
 
 pub struct Request {}
 

@@ -1,6 +1,5 @@
 #[cfg(test)]
 mod tests {
-    use anyhow::Result;
     use saleae::request::Request;
     /// Regular function tests
     #[test]

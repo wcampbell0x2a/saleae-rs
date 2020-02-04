@@ -2,7 +2,6 @@ use saleae;
 
 use saleae::PerformanceOption;
 use saleae::{Client, Connection};
-use std::net::TcpStream;
 use std::thread;
 use std::time::Duration;
 

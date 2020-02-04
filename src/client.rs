@@ -161,6 +161,9 @@ impl Client {
 
     /// Find index of device from the list of devices connected to Saleae
     ///
+    /// Get current index of connected devices and find equal device to parameter.
+    /// Send that device as active device to logic.
+    ///
     /// Note: Indices start at 1, not 0
     /// TODO: test with multiple saleae
     pub fn select_active_device(&mut self, device: ConnectedDevice) -> Result<bool> {
@@ -171,14 +174,13 @@ impl Client {
             .position(|a| a == device);
         self.connection
             .run_command(&format!("select_active_device, {}", b.unwrap() + 1))?;
-        //TODO check ack?
+        // Weirdly doesn't return an ACK
         Ok(true)
     }
 
     /// Return current active device of Logic
     pub fn get_active_device(&mut self) -> Result<ConnectedDevice> {
         self.connection.run_command("get_connected_devices\0")?;
-        //TODO lol clean this up
         let response = self.connection.general_recieve_message()?;
         Ok(
             Response::parse_connected_devices(&Response::remove_ack(&response))
@@ -190,7 +192,7 @@ impl Client {
 
     /// Parse the get active channels command into tuples of digital and analog
     /// channels that are current
-    pub fn get_active_channels(&mut self) -> Result<(Vec<Vec<u8>>)> {
+    pub fn get_active_channels(&mut self) -> Result<Vec<Vec<u8>>> {
         self.connection.run_command("get_active_channels\0")?;
         let response = self.connection.general_recieve_message()?;
         Ok(Response::parse_get_active_channels(&Response::remove_ack(
@@ -227,8 +229,8 @@ impl Client {
     /// Start Capture, without wating for ack/nack
     pub fn start_capture(&mut self) -> Result<bool> {
         self.connection.run_command("capture\0")?;
-        //TODO check ack?
         Ok(true)
+        // Doesn't return ACK
     }
 
     /// Start Capture, then wait until ack

@@ -78,7 +78,7 @@ impl Response {
             .collect()
     }
 
-    pub fn parse_get_active_channels(response: &str) -> Result<(Vec<Vec<u8>>)> {
+    pub fn parse_get_active_channels(response: &str) -> Result<Vec<Vec<u8>>> {
         println!("{}", response);
         let v: Vec<&str> = response.split(',').map(|a| a.trim_start()).collect();
 
