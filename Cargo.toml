@@ -17,7 +17,7 @@ bufstream = "0.1.1"
 anyhow = "1.0.26"
 enum_derive = "0.1.7"
 custom_derive = "0.1.7"
-faux = "0.0.3"
+faux = "0.0.4"
 
 [dev-dependencies]
 #faux = "0.0.3"
