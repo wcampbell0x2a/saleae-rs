@@ -46,7 +46,7 @@ impl Connection {
     //TODO Support for parameters
     pub fn run_command(&mut self, command: &str) -> Result<()> {
         let mut writer = BufWriter::new(&self.stream);
-        writer.write(command.as_bytes()).unwrap();
+        writer.write_all(command.as_bytes()).unwrap();
         Ok(())
     }
 }
