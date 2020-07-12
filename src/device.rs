@@ -19,6 +19,7 @@
 use anyhow::Result;
 use std::str::FromStr;
 
+// TODO Look for better EnumFromStr derive
 custom_derive! {
     /// Device id for saleae devices
     #[allow(non_camel_case_types)]

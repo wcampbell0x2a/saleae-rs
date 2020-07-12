@@ -1,5 +1,3 @@
-use saleae;
-
 use saleae::PerformanceOption;
 use saleae::{Client, Connection};
 use std::thread;

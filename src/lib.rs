@@ -26,16 +26,6 @@
 //!
 //! let response1 = conn.get_connected_devices();
 //! println!("get_command_devices: {:?}", response1.unwrap());
-
-#[macro_use]
-extern crate anyhow;
-extern crate bufstream;
-#[macro_use]
-extern crate custom_derive;
-#[macro_use]
-extern crate enum_derive;
-extern crate faux;
-
 pub mod client;
 pub mod device;
 pub mod performance;
@@ -47,3 +37,8 @@ pub use client::{Client, Connection};
 pub use device::ConnectedDevice;
 pub use performance::PerformanceOption;
 pub use samplerate::SampleRate;
+
+#[macro_use]
+extern crate custom_derive;
+#[macro_use]
+extern crate enum_derive;

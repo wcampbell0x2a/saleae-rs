@@ -1,9 +1,8 @@
 //! This module defines the client data structure - the main entry point of communication
 //! to the saleae
 
-use anyhow::Result;
-use std::io::prelude::{Read, Write};
-use std::io::{BufReader, BufWriter};
+use anyhow::{anyhow, Result};
+use std::io::{BufReader, BufWriter, Read, Write};
 use std::net::TcpStream;
 
 use crate::device::ConnectedDevice;
