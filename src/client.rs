@@ -8,7 +8,7 @@ use std::net::TcpStream;
 use crate::device::ConnectedDevice;
 use crate::performance::PerformanceOption;
 use crate::request::Request;
-use crate::response::Response;
+use crate::response;
 use crate::samplerate::SampleRate;
 
 #[faux::create]
@@ -27,12 +27,12 @@ impl Connection {
 
     pub fn general_recieve_ack(&mut self) -> Result<bool> {
         let r: String = std::str::from_utf8(&self.read_line()?)?.to_string();
-        Ok(Response::verify_ack(&r))
+        Ok(response::verify_ack(&r))
     }
 
     pub fn general_recieve_message(&mut self) -> Result<String> {
         let msg: String = std::str::from_utf8(&self.read_line()?)?.to_string();
-        Response::verify_ack(&msg);
+        response::verify_ack(&msg);
         Ok(msg)
     }
 
@@ -40,19 +40,13 @@ impl Connection {
         let mut reader = BufReader::new(&self.stream);
         let mut buf = [0; 500];
         let len = reader.read(&mut buf)?;
-        if len < 1 {
-            panic!("read buffer len < 0");
-        }
         Ok(buf[..len].to_vec())
     }
 
     //TODO Support for parameters
     pub fn run_command(&mut self, command: &str) -> Result<()> {
         let mut writer = BufWriter::new(&self.stream);
-        let len = writer.write(command.as_bytes()).unwrap();
-        if len < 1 {
-            panic!("write buffer len < 0");
-        }
+        writer.write(command.as_bytes()).unwrap();
         Ok(())
     }
 }
@@ -87,8 +81,8 @@ impl Client {
     pub fn get_num_samples(&mut self) -> Result<u32> {
         self.connection.run_command("get_num_samples\0")?;
         let response = self.connection.general_recieve_message()?;
-        if Response::verify_ack(&response) {
-            Ok(Response::parse_num_samples(&Response::remove_ack(
+        if response::verify_ack(&response) {
+            Ok(response::parse_num_samples(&response::remove_ack(
                 &response,
             )))
         } else {
@@ -118,7 +112,7 @@ impl Client {
     pub fn get_sample_rate(&mut self) -> Result<SampleRate> {
         self.connection.run_command("get_sample_rate\0")?;
         let response = self.connection.general_recieve_message()?;
-        Ok(Response::parse_get_sample_rate(&Response::remove_ack(
+        Ok(response::parse_get_sample_rate(&response::remove_ack(
             &response,
         )))
     }
@@ -126,7 +120,7 @@ impl Client {
     pub fn get_all_sample_rates(&mut self) -> Result<Vec<SampleRate>> {
         self.connection.run_command("get_all_sample_rates\0")?;
         let response = self.connection.general_recieve_message()?;
-        Ok(Response::parse_get_all_sample_rates(&Response::remove_ack(
+        Ok(response::parse_get_all_sample_rates(&response::remove_ack(
             &response,
         )))
     }
@@ -135,7 +129,7 @@ impl Client {
     pub fn get_performance(&mut self) -> Result<u8> {
         self.connection.run_command("get_performance\0")?;
         let response = self.connection.general_recieve_message()?;
-        Ok(Response::parse_performance(&Response::remove_ack(
+        Ok(response::parse_performance(&response::remove_ack(
             &response,
         )))
     }
@@ -153,7 +147,7 @@ impl Client {
     pub fn get_connected_devices(&mut self) -> Result<Vec<ConnectedDevice>> {
         self.connection.run_command("get_connected_devices\0")?;
         let response = self.connection.general_recieve_message()?;
-        Ok(Response::parse_connected_devices(&Response::remove_ack(
+        Ok(response::parse_connected_devices(&response::remove_ack(
             &response,
         )))
     }
@@ -182,7 +176,7 @@ impl Client {
         self.connection.run_command("get_connected_devices\0")?;
         let response = self.connection.general_recieve_message()?;
         Ok(
-            Response::parse_connected_devices(&Response::remove_ack(&response))
+            response::parse_connected_devices(&response::remove_ack(&response))
                 .into_iter()
                 .find(|a| a.is_active)
                 .unwrap(),
@@ -194,7 +188,7 @@ impl Client {
     pub fn get_active_channels(&mut self) -> Result<Vec<Vec<u8>>> {
         self.connection.run_command("get_active_channels\0")?;
         let response = self.connection.general_recieve_message()?;
-        Ok(Response::parse_get_active_channels(&Response::remove_ack(
+        Ok(response::parse_get_active_channels(&response::remove_ack(
             &response,
         ))?)
     }
@@ -242,7 +236,7 @@ impl Client {
     pub fn is_processing_complete(&mut self) -> Result<bool> {
         self.connection.run_command("is_processing_complete\0")?;
         let response = self.connection.general_recieve_message()?;
-        Ok(Response::parse_processing_complete(&Response::remove_ack(
+        Ok(response::parse_processing_complete(&response::remove_ack(
             &response,
         )))
     }
