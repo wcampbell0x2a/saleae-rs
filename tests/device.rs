@@ -11,7 +11,7 @@ fn test_from_str() {
     // test whether from_str performs as expected
     assert_eq!(
         ConnectedDevice::from_str(
-            &"1, Logic Pro 16, LOGIC_PRO_16_DEVICE, 0xdf03c43d1f3aa2f3, ACTIVE"
+            "1, Logic Pro 16, LOGIC_PRO_16_DEVICE, 0xdf03c43d1f3aa2f3, ACTIVE"
         )
         .unwrap(),
         ConnectedDevice {
@@ -23,7 +23,7 @@ fn test_from_str() {
         }
     );
     assert_eq!(
-        ConnectedDevice::from_str(&"2, Logic 8, LOGIC_8_DEVICE, 0xffffffffff, ACTIVE").unwrap(),
+        ConnectedDevice::from_str("2, Logic 8, LOGIC_8_DEVICE, 0xffffffffff, ACTIVE").unwrap(),
         ConnectedDevice {
             d_type: "2".to_string(),
             name: "Logic 8".to_string(),
@@ -33,7 +33,7 @@ fn test_from_str() {
         }
     );
     assert_eq!(
-        ConnectedDevice::from_str(&"1, Logic Pro 16, LOGIC_PRO_16_DEVICE, 0xdf03c43d1f3aa2f3")
+        ConnectedDevice::from_str("1, Logic Pro 16, LOGIC_PRO_16_DEVICE, 0xdf03c43d1f3aa2f3")
             .unwrap(),
         ConnectedDevice {
             d_type: "1".to_string(),

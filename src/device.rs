@@ -54,7 +54,7 @@ pub struct ConnectedDevice {
 impl FromStr for ConnectedDevice {
     type Err = std::num::ParseIntError;
     fn from_str(response: &str) -> Result<Self, Self::Err> {
-        let v: Vec<&str> = response.split(',').map(|a| a.trim_start()).collect();
+        let v: Vec<&str> = response.split(',').map(str::trim_start).collect();
 
         /* parse into device_id */
         let device_id: DeviceID = v[2].parse().unwrap();
@@ -65,7 +65,7 @@ impl FromStr for ConnectedDevice {
          */
         let is_active = v.len() == 5 && v[4] == "ACTIVE";
 
-        Ok(ConnectedDevice {
+        Ok(Self {
             d_type: v[0].to_string(),
             name: v[1].to_string(),
             device_id,

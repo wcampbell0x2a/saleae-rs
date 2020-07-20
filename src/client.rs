@@ -20,7 +20,7 @@ pub struct Connection {
 #[faux::methods]
 impl Connection {
     pub fn new(ip_port: &str) -> Self {
-        Connection {
+        Self {
             stream: TcpStream::connect(ip_port).unwrap(),
         }
     }
@@ -62,8 +62,8 @@ pub struct Client {
 impl Client {
     /// constructor
     //TODO make this create a connection from a string
-    pub fn new(connection: Connection) -> Result<Client> {
-        Ok(Client { connection })
+    pub fn new(connection: Connection) -> Result<Self> {
+        Ok(Self { connection })
     }
 }
 
@@ -204,8 +204,8 @@ impl Client {
     ) -> Result<bool> {
         self.connection
             .run_command(&Request::prepare_set_active_channels(
-                &digital_channels,
-                &analog_channels,
+                digital_channels,
+                analog_channels,
             )?)?;
         Ok(self.connection.general_recieve_ack()?)
     }

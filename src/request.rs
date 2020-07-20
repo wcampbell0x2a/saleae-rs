@@ -21,7 +21,7 @@ impl Request {
         let d_str = if !digital_channels.is_empty() {
             format!(
                 ", digital_channels, {}",
-                Request::create_channel_str(digital_channels)?
+                Self::create_channel_str(digital_channels)?
             )
         } else {
             "".to_string()
@@ -30,7 +30,7 @@ impl Request {
         let a_str = if !analog_channels.is_empty() {
             format!(
                 ", analog_channels, {}",
-                Request::create_channel_str(analog_channels)?
+                Self::create_channel_str(analog_channels)?
             )
         } else {
             "".to_string()

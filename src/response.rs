@@ -38,7 +38,6 @@ pub fn parse_num_samples(response: &str) -> u32 {
     response.parse::<u32>().unwrap()
 }
 
-///
 pub fn parse_get_sample_rate(response: &str) -> SampleRate {
     let mut iter = response.lines();
     SampleRate {
@@ -57,7 +56,7 @@ pub fn parse_get_sample_rate(response: &str) -> SampleRate {
 pub fn parse_get_all_sample_rates(response: &str) -> Vec<SampleRate> {
     response
         .lines()
-        .map(|a| SampleRate::from_str(&a).unwrap())
+        .map(|a| SampleRate::from_str(a).unwrap())
         .collect()
 }
 
@@ -70,13 +69,13 @@ pub fn parse_get_all_sample_rates(response: &str) -> Vec<SampleRate> {
 pub fn parse_connected_devices(response: &str) -> Vec<ConnectedDevice> {
     response
         .lines()
-        .map(|a| ConnectedDevice::from_str(&a).unwrap())
+        .map(|a| ConnectedDevice::from_str(a).unwrap())
         .collect()
 }
 
 pub fn parse_get_active_channels(response: &str) -> Result<Vec<Vec<u8>>> {
     println!("{}", response);
-    let v: Vec<&str> = response.split(',').map(|a| a.trim_start()).collect();
+    let v: Vec<&str> = response.split(',').map(str::trim_start).collect();
 
     // Find position of starter word
     let digital_pos = v.iter().position(|a| *a == "digital_channels").unwrap();

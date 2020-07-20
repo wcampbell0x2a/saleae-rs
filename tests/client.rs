@@ -58,8 +58,8 @@ fn set_sample_rate() {
     let mut conn = Client::new(conn).unwrap();
     let response = conn
         .set_sample_rate(&SampleRate {
-            AnalogSampleRate: 6250000,
-            DigitalSampleRate: 1562500,
+            AnalogSampleRate: 6_250_000,
+            DigitalSampleRate: 1_562_500,
         })
         .unwrap();
     assert_eq!(true, response);
@@ -73,7 +73,7 @@ fn get_sample_rate() {
 
     let mut conn = Client::new(conn).unwrap();
     let response = conn.get_sample_rate().unwrap();
-    assert_eq!(response.DigitalSampleRate, 1000000);
+    assert_eq!(response.DigitalSampleRate, 1_000_000);
     assert_eq!(response.AnalogSampleRate, 0);
 }
 

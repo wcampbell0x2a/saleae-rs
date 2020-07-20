@@ -62,7 +62,7 @@ fn main() {
 
     let sample_rate = &response13[1];
 
-    let response14 = conn.set_sample_rate(&sample_rate);
+    let response14 = conn.set_sample_rate(sample_rate);
     println!("set_sample_rate: {:?}", response14.unwrap());
 
     let response15 = conn.get_sample_rate();

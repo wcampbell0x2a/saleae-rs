@@ -41,12 +41,12 @@ fn test_parse_performance() {
 #[test]
 fn test_get_all_sample_rates() {
     let one = SampleRate {
-        DigitalSampleRate: 25000000,
-        AnalogSampleRate: 3125000,
+        DigitalSampleRate: 25_000_000,
+        AnalogSampleRate: 3_125_000,
     };
     let two = SampleRate {
-        DigitalSampleRate: 6250000,
-        AnalogSampleRate: 1562500,
+        DigitalSampleRate: 6_250_000,
+        AnalogSampleRate: 1_562_500,
     };
     let result = response::parse_get_all_sample_rates("25000000, 3125000\n6250000, 1562500\n");
     assert_eq!(result[0], one);
