@@ -1,19 +1,20 @@
 [package]
 name = "saleae"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["wcampbell"]
 edition = "2018"
 description = "a rust library for interacting with saleae devices"
 keywords = ["logic", "saleae", "api", "re", "reverse"]
-maintenance = { status = "actively-developed" }
-repository = "https://github.com/wcampbell0x2a/rust-saleae"
-license = "GPL-3.0"
+license = "MIT"
 readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bufstream = "0.1.1"
 anyhow = "1.0.26"
 enum_derive = "0.1.7"
 custom_derive = "0.1.7"
+faux = "0.0.4"
+
+[dev-dependencies]
+#faux = "0.0.3"

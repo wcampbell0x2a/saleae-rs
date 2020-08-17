@@ -2,7 +2,7 @@
 //!
 //! The function here parse and type check the input from the API into strings to send into
 //! the Saleae socket
-use anyhow::{Error, Result};
+use anyhow::{anyhow, Result};
 
 pub struct Request {}
 
@@ -18,20 +18,23 @@ impl Request {
             ));
         }
 
-        let mut d_str: String = "".to_string();
-        if !digital_channels.is_empty() {
-            d_str = format!(
+        let d_str = if !digital_channels.is_empty() {
+            format!(
                 ", digital_channels, {}",
-                Request::create_channel_str(digital_channels)?
-            );
-        }
-        let mut a_str: String = "".to_string();
-        if !analog_channels.is_empty() {
-            a_str = format!(
+                Self::create_channel_str(digital_channels)?
+            )
+        } else {
+            "".to_string()
+        };
+
+        let a_str = if !analog_channels.is_empty() {
+            format!(
                 ", analog_channels, {}",
-                Request::create_channel_str(analog_channels)?
-            );
-        }
+                Self::create_channel_str(analog_channels)?
+            )
+        } else {
+            "".to_string()
+        };
 
         Ok(format!("set_active_channels{}{}\0", d_str, a_str))
     }
@@ -41,7 +44,7 @@ impl Request {
 impl Request {
     pub fn create_channel_str(v: &[u8]) -> Result<String> {
         let s = v
-            .into_iter()
+            .iter()
             .map(|a| format!("{}, ", a.to_string()))
             .collect::<String>();
         Ok(s[..s.len() - 2].to_string())
